@@ -1,0 +1,296 @@
+<!-- aircraft.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aircraft Management</title>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <h1>Aircraft Management</h1>
+        
+        <nav class="nav-container">
+            <div class="nav-links">
+                <a href="/routes.html">Routes</a>
+                <a href="/flights.html">Flights</a>
+                <a href="/aircraft.html">Aircraft</a>
+                <a href="/seats.html">Seats</a>
+                <a href="/passengers_and_bookings.html">Passengers & Bookings</a>
+                <a href="/employees_and_assignments.html">Employees & Assignments</a>
+            </div>
+        </nav>
+
+        <div id="browse" class="table-container">
+            <div class="card">
+                <div class="table-actions">
+                    <button class="btn-primary" onclick="showForm('insert')">Add New Aircraft</button>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Actions</th>
+                            <th>Aircraft ID</th>
+                            <th>Model</th>
+                            <th>Capacity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="aircraft-table-body">
+                        <!-- Aircraft will be loaded here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="insert" class="form-container" style="display: none;">
+            <form id="insert-form">
+                <legend><strong>Add Aircraft</strong></legend>
+                <fieldset>
+                    <div class="form-group">
+                        <label for="model">Model</label>
+                        <input type="text" id="model" name="model" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="capacity">Capacity</label>
+                        <input type="number" id="capacity" name="capacity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="aircraftStatus">Status</label>
+                        <select id="aircraftStatus" name="aircraftStatus" required>
+                            <option value="active">Active</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </fieldset>
+                <div class="button-container">
+                    <button type="button" class="btn-secondary" onclick="showForm('browse')">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Aircraft</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="update" class="form-container" style="display: none;">
+            <form id="update-form">
+                <legend><strong>Update Aircraft</strong></legend>
+                <fieldset>
+                    <input type="hidden" id="updateAircraftId" name="aircraftId">
+                    <div class="form-group">
+                        <label for="updateModel">Model</label>
+                        <input type="text" id="updateModel" name="model" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateCapacity">Capacity</label>
+                        <input type="number" id="updateCapacity" name="capacity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateAircraftStatus">Status</label>
+                        <select id="updateAircraftStatus" name="aircraftStatus" required>
+                            <option value="active">Active</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </fieldset>
+                <div class="button-container">
+                    <button type="button" class="btn-secondary" onclick="showForm('browse')">Cancel</button>
+                    <button type="submit" class="btn-primary">Update Aircraft</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="delete" class="form-container" style="display: none;">
+            <form id="delete-form">
+                <legend><strong>Delete Aircraft</strong></legend>
+                <fieldset>
+                    <div class="alert alert-danger">
+                        <p>Are you sure you wish to delete this aircraft? This action cannot be undone.</p>
+                    </div>
+                    <input type="hidden" id="deleteAircraftId" name="aircraftId">
+                    <div class="form-group">
+                        <label id="delete-aircraft-info"><strong>Aircraft:</strong> <span id="aircraft-to-delete"></span></label>
+                    </div>
+                </fieldset>
+                <div class="button-container">
+                    <button type="button" class="btn-secondary" onclick="showForm('browse')">Cancel</button>
+                    <button type="submit" class="btn-danger">Delete Aircraft</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to show/hide forms
+        function showForm(formId) {
+            const forms = document.querySelectorAll('.form-container');
+            forms.forEach(form => {
+                form.style.display = 'none';
+            });
+
+            if (formId === 'all') {
+                forms.forEach(form => {
+                    form.style.display = 'block';
+                });
+            } else if (formId !== 'browse') {
+                document.getElementById(formId).style.display = 'block';
+            }
+        }
+
+        // Function to load aircraft from the server
+        async function loadAircraft() {
+            try {
+                const response = await fetch('/api/aircraft');
+                const aircraft = await response.json();
+                
+                const tableBody = document.getElementById('aircraft-table-body');
+                tableBody.innerHTML = '';
+                
+                aircraft.forEach(plane => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <div class="button-container">
+                                <button class="btn-primary action-btn" onclick="editAircraft(${plane.aircraftId})">Edit</button>
+                                <button class="btn-danger action-btn" onclick="deleteAircraft(${plane.aircraftId}, '${plane.model}', ${plane.capacity})">Delete</button>
+                            </div>
+                        </td>
+                        <td>${plane.aircraftId}</td>
+                        <td>${plane.model}</td>
+                        <td>${plane.capacity}</td>
+                        <td>${plane.aircraftStatus}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading aircraft:', error);
+                alert('Error loading aircraft. Please try again.');
+            }
+        }
+
+        // Function to handle aircraft edit
+        async function editAircraft(aircraftId) {
+            try {
+                const response = await fetch('/api/aircraft');
+                const aircraft = await response.json();
+                const plane = aircraft.find(a => a.aircraftId === aircraftId);
+                
+                if (plane) {
+                    document.getElementById('updateAircraftId').value = plane.aircraftId;
+                    document.getElementById('updateModel').value = plane.model;
+                    document.getElementById('updateCapacity').value = plane.capacity;
+                    document.getElementById('updateAircraftStatus').value = plane.aircraftStatus;
+                    
+                    showForm('update');
+                }
+            } catch (error) {
+                console.error('Error fetching aircraft data:', error);
+                alert('Error fetching aircraft data. Please try again.');
+            }
+        }
+
+        // Function to handle aircraft delete preparation
+        function deleteAircraft(aircraftId, model, capacity) {
+            document.getElementById('deleteAircraftId').value = aircraftId;
+            document.getElementById('aircraft-to-delete').textContent = `${model} (${capacity} seats)`;
+            showForm('delete');
+        }
+
+        // Event listeners for form submissions
+        document.getElementById('insert-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('/api/aircraft', {
+                    method: 'POST',
+                    body: new URLSearchParams(formData),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+                
+                const result = await response.json();
+                if (result.id) {
+                    alert('Aircraft added successfully!');
+                    this.reset();
+                    showForm('browse');
+                    loadAircraft();
+                } else {
+                    alert('Error adding aircraft. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error adding aircraft:', error);
+                alert('Error adding aircraft. Please try again.');
+            }
+        });
+
+        document.getElementById('update-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('/api/aircraft/update', {
+                    method: 'POST',
+                    body: new URLSearchParams(formData),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+                
+                const result = await response.json();
+                if (result.message) {
+                    alert('Aircraft updated successfully!');
+                    this.reset();
+                    showForm('browse');
+                    loadAircraft();
+                } else {
+                    alert('Error updating aircraft. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error updating aircraft:', error);
+                alert('Error updating aircraft. Please try again.');
+            }
+        });
+
+        document.getElementById('delete-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!confirm('Are you sure you want to delete this aircraft? This action cannot be undone.')) {
+                return;
+            }
+            
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('/api/aircraft/delete', {
+                    method: 'POST',
+                    body: new URLSearchParams(formData),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+                
+                const result = await response.json();
+                if (result.message) {
+                    alert('Aircraft deleted successfully!');
+                    this.reset();
+                    showForm('browse');
+                    loadAircraft();
+                } else {
+                    alert('Error deleting aircraft. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error deleting aircraft:', error);
+                alert('Error deleting aircraft. Please try again.');
+            }
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAircraft();
+        });
+    </script>
+</body>
+</html>
