@@ -28,9 +28,9 @@ app.use(express.static('public', {
 // Database connection
 const db = mysql.createConnection({
     host: 'classmysql.engr.oregonstate.edu',
-    user: '',
-    password: '',
-    database: ''
+    user: 'cs340_akbarmu',
+    password: 'cs340_akbarmu',
+    database: 'tFZkFp1gRFu4'
 });
 
 // Connect to database
