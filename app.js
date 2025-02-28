@@ -1,3 +1,10 @@
+// Citation for the following code: 
+// Date: 02/27/2025
+// Following app.js setup, database connection, routes, and get methods are based on the startup 
+// activity 2 from CS340, largely using the same dependencies and syntax to set up the connection and express middleware. 
+// Source URL: https://canvas.oregonstate.edu/courses/1987790/assignments/9888486?module_item_id=25022943
+
+
 // app.js (updated with routes for all entities)
 const express = require('express');
 const mysql = require('mysql');
@@ -21,9 +28,9 @@ app.use(express.static('public', {
 // Database connection
 const db = mysql.createConnection({
     host: 'classmysql.engr.oregonstate.edu',
-    user: '',
-    password: '',
-    database: ''
+    user: 'cs340_akbarmu',
+    password: 'cs340_akbarmu',
+    database: 'tFZkFp1gRFu4'
 });
 
 // Connect to database
@@ -39,6 +46,12 @@ db.connect((err) => {
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+// Citation for the following code: 
+// Date: 02/27/2025
+// Following get and post methods are based on the code descibed in the nodejs starter app. 
+// The methods described are similar in syntax/function, but handwritten to accomodate the specific database and queries. 
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 
 // ROUTES ENTITY
 app.get('/api/routes', (req, res) => {
