@@ -13,7 +13,7 @@ const path = require('path');
 const { clear } = require('console');
 
 const app = express();
-const port = 5820;
+const port = 2900;
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,9 +28,9 @@ app.use(express.static('public', {
 // Database connection
 const db = mysql.createConnection({
     host: 'classmysql.engr.oregonstate.edu',
-    user: 'cs340_pillsbuk',
-    password: '8290',
-    database: 'cs340_pillsbuk'
+    user: 'cs340_akbarmu',
+    password: 'eIYDpM3bLcs3',
+    database: 'cs340_akbarmu'
 });
 
 // Connect to database
