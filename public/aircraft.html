@@ -1,21 +1,15 @@
-<!-- aircraft.html -->
-<!-- Citation for the following code: 
-// Date: 02/28/2025
-// Following methods (show, load, update, delete), and listeners are adapted from the CS340 starter code. 
-// Naming, references, and other annotations are handwritten to accomodate the specific database and objects on our site. 
-// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app -->
-
+<!-- flights.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aircraft Management</title>
+    <title>Flights Management</title>
     <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="container">
-        <h1>Aircraft Management</h1>
+        <h1>Flights Management</h1>
         
         <nav class="nav-container">
             <div class="nav-links">
@@ -32,21 +26,22 @@
         <div id="browse" class="table-container">
             <div class="card">
                 <div class="table-actions">
-                    <button class="btn-primary" onclick="showForm('insert')">Add New Aircraft</button>
+                    <button class="btn-primary" onclick="showForm('insert')">Add New Flight</button>
                 </div>
                 
                 <table>
                     <thead>
                         <tr>
                             <th>Actions</th>
+                            <th>Flight ID</th>
+                            <th>Departure Time</th>
+                            <th>Route ID</th>
                             <th>Aircraft ID</th>
-                            <th>Model</th>
-                            <th>Capacity</th>
-                            <th>Status</th>
+                            <th>Flight Status</th>
                         </tr>
                     </thead>
-                    <tbody id="aircraft-table-body">
-                        <!-- Aircraft will be loaded here dynamically -->
+                    <tbody id="flights-table-body">
+                        <!-- Flights will be loaded here dynamically -->
                     </tbody>
                 </table>
             </div>
@@ -54,76 +49,96 @@
 
         <div id="insert" class="form-container" style="display: none;">
             <form id="insert-form">
-                <legend><strong>Add Aircraft</strong></legend>
+                <legend><strong>Add Flight</strong></legend>
                 <fieldset>
                     <div class="form-group">
-                        <label for="model">Model</label>
-                        <input type="text" id="model" name="model" required>
+                        <label for="departureAt">Departure Time (UTC)</label>
+                        <input type="datetime-local" id="departureAt" name="departureAt" required>
                     </div>
                     <div class="form-group">
-                        <label for="capacity">Capacity</label>
-                        <input type="number" id="capacity" name="capacity" required>
+                        <label for="routeId">Route</label>
+                        <select id="routeId" name="routeId" required>
+                            <!-- Routes will be loaded here dynamically -->
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="aircraftStatus">Status</label>
-                        <select id="aircraftStatus" name="aircraftStatus" required>
-                            <option value="active">Active</option>
-                            <option value="maintenance">Maintenance</option>
-                            <option value="inactive">Inactive</option>
+                        <label for="aircraftId">Aircraft</label>
+                        <select id="aircraftId" name="aircraftId" required>
+                            <!-- Aircraft will be loaded here dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="flightStatus">Flight Status</label>
+                        <select id="flightStatus" name="flightStatus" required>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="delayed">Delayed</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="in progress">In Progress</option>
+                            <option value="completed">Completed</option>
                         </select>
                     </div>
                 </fieldset>
                 <div class="button-container">
                     <button type="button" class="btn-secondary" onclick="showForm('browse')">Cancel</button>
-                    <button type="submit" class="btn-primary">Add Aircraft</button>
+                    <button type="submit" class="btn-primary">Add Flight</button>
                 </div>
             </form>
         </div>
 
         <div id="update" class="form-container" style="display: none;">
             <form id="update-form">
-                <legend><strong>Update Aircraft</strong></legend>
+                <legend><strong>Update Flight</strong></legend>
                 <fieldset>
-                    <input type="hidden" id="updateAircraftId" name="aircraftId">
+                    <input type="hidden" id="updateFlightId" name="flightId">
                     <div class="form-group">
-                        <label for="updateModel">Model</label>
-                        <input type="text" id="updateModel" name="model" required>
+                        <label for="updateDepartureAt">Departure Time (UTC)</label>
+                        <input type="datetime-local" id="updateDepartureAt" name="departureAt" required>
                     </div>
                     <div class="form-group">
-                        <label for="updateCapacity">Capacity</label>
-                        <input type="number" id="updateCapacity" name="capacity" required>
+                        <label for="updateRouteId">Route</label>
+                        <select id="updateRouteId" name="routeId" required>
+                            <!-- Routes will be loaded here dynamically -->
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="updateAircraftStatus">Status</label>
-                        <select id="updateAircraftStatus" name="aircraftStatus" required>
-                            <option value="active">Active</option>
-                            <option value="maintenance">Maintenance</option>
-                            <option value="inactive">Inactive</option>
+                        <label for="updateAircraftId">Aircraft</label>
+                        <select id="updateAircraftId" name="aircraftId" required>
+                            <!-- Aircraft will be loaded here dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateFlightStatus">Flight Status</label>
+                        <select id="updateFlightStatus" name="flightStatus" required>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="delayed">Delayed</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="in progress">In Progress</option>
+                            <option value="completed">Completed</option>
                         </select>
                     </div>
                 </fieldset>
                 <div class="button-container">
                     <button type="button" class="btn-secondary" onclick="showForm('browse')">Cancel</button>
-                    <button type="submit" class="btn-primary">Update Aircraft</button>
+                    <button type="submit" class="btn-primary">Update Flight</button>
                 </div>
             </form>
         </div>
 
         <div id="delete" class="form-container" style="display: none;">
             <form id="delete-form">
-                <legend><strong>Delete Aircraft</strong></legend>
+                <legend><strong>Delete Flight</strong></legend>
                 <fieldset>
                     <div class="alert alert-danger">
-                        <p>Are you sure you wish to delete this aircraft? This action cannot be undone.</p>
+                        <p>Are you sure you wish to delete this flight? This action cannot be undone.</p>
                     </div>
-                    <input type="hidden" id="deleteAircraftId" name="aircraftId">
+                    <input type="hidden" id="deleteFlightId" name="flightId">
                     <div class="form-group">
-                        <label id="delete-aircraft-info"><strong>Aircraft:</strong> <span id="aircraft-to-delete"></span></label>
+                        <label id="delete-flight-info"><strong>Flight:</strong> <span id="flight-to-delete"></span></label>
                     </div>
                 </fieldset>
                 <div class="button-container">
                     <button type="button" class="btn-secondary" onclick="showForm('browse')">Cancel</button>
-                    <button type="submit" class="danger">Delete Aircraft</button>
+                    <button type="submit" class="danger">Delete Flight</button>
                 </div>
             </form>
         </div>
@@ -146,62 +161,128 @@
             }
         }
 
-        // Function to load aircraft from the server
+        // Function to format date for display
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString();
+        }
+
+        // Function to format date for input fields
+        function formatDateForInput(dateString) {
+            const date = new Date(dateString);
+            return date.toISOString().slice(0, 16);
+        }
+
+        // Function to load flights from the server
+        async function loadFlights() {
+            try {
+                const response = await fetch('/api/flights');
+                const flights = await response.json();
+                
+                const tableBody = document.getElementById('flights-table-body');
+                tableBody.innerHTML = '';
+                
+                flights.forEach(flight => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <div class="button-container">
+                                <button class="primary" onclick="editFlight(${flight.flightId})">Edit</button>
+                                <button class="danger" onclick="deleteFlight(${flight.flightId}, '${flight.departureAt}')">Delete</button>
+                            </div>
+                        </td>
+                        <td>${flight.flightId}</td>
+                        <td>${formatDate(flight.departureAt)}</td>
+                        <td>${flight.routeId}</td>
+                        <td>${flight.aircraftId}</td>
+                        <td>${flight.flightStatus}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading flights:', error);
+                alert('Error loading flights. Please try again.');
+            }
+        }
+
+        // Function to load routes for dropdowns
+        async function loadRoutes() {
+            try {
+                const response = await fetch('/api/routes');
+                const routes = await response.json();
+                
+                const insertDropdown = document.getElementById('routeId');
+                const updateDropdown = document.getElementById('updateRouteId');
+                
+                // Clear existing options
+                insertDropdown.innerHTML = '<option value="">Select Route</option>';
+                updateDropdown.innerHTML = '<option value="">Select Route</option>';
+                
+                routes.forEach(route => {
+                    const optionText = `${route.originAirport} to ${route.destinationAirport}`;
+                    insertDropdown.innerHTML += `<option value="${route.routeId}">${optionText}</option>`;
+                    updateDropdown.innerHTML += `<option value="${route.routeId}">${optionText}</option>`;
+                });
+            } catch (error) {
+                console.error('Error loading routes:', error);
+                alert('Error loading routes data. Please try again.');
+            }
+        }
+
+        // Function to load aircraft for dropdowns
         async function loadAircraft() {
             try {
                 const response = await fetch('/api/aircraft');
                 const aircraft = await response.json();
                 
-                const tableBody = document.getElementById('aircraft-table-body');
-                tableBody.innerHTML = '';
+                const insertDropdown = document.getElementById('aircraftId');
+                const updateDropdown = document.getElementById('updateAircraftId');
+                
+                // Clear existing options
+                insertDropdown.innerHTML = '<option value="">Select Aircraft</option>';
+                updateDropdown.innerHTML = '<option value="">Select Aircraft</option>';
+
+                //Add default options
+                insertDropdown.innerHTML = `<option value="null">No Aircraft Assigned</option>`;
+                updateDropdown.innerHTML = `<option value="null">No Aircraft Assigned</option>`;
                 
                 aircraft.forEach(plane => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>
-                            <div class="button-container">
-                                <button class="primary" onclick="editAircraft(${plane.aircraftId})">Edit</button>
-                                <button class="danger" onclick="deleteAircraft(${plane.aircraftId}, '${plane.model}', ${plane.capacity})">Delete</button>
-                            </div>
-                        </td>
-                        <td>${plane.aircraftId}</td>
-                        <td>${plane.model}</td>
-                        <td>${plane.capacity}</td>
-                        <td>${plane.aircraftStatus}</td>
-                    `;
-                    tableBody.appendChild(row);
+                    const optionText = `${plane.model} (Capacity: ${plane.capacity})`;
+                    insertDropdown.innerHTML += `<option value="${plane.aircraftId}">${optionText}</option>`;
+                    updateDropdown.innerHTML += `<option value="${plane.aircraftId}">${optionText}</option>`;
                 });
             } catch (error) {
                 console.error('Error loading aircraft:', error);
-                alert('Error loading aircraft. Please try again.');
+                alert('Error loading aircraft data. Please try again.');
             }
         }
 
-        // Function to handle aircraft edit
-        async function editAircraft(aircraftId) {
+        // Function to handle flight edit
+        async function editFlight(flightId) {
             try {
-                const response = await fetch('/api/aircraft');
-                const aircraft = await response.json();
-                const plane = aircraft.find(a => a.aircraftId === aircraftId);
+                const response = await fetch('/api/flights');
+                const flights = await response.json();
+                const flight = flights.find(f => f.flightId === flightId);
                 
-                if (plane) {
-                    document.getElementById('updateAircraftId').value = plane.aircraftId;
-                    document.getElementById('updateModel').value = plane.model;
-                    document.getElementById('updateCapacity').value = plane.capacity;
-                    document.getElementById('updateAircraftStatus').value = plane.aircraftStatus;
+                if (flight) {
+                    document.getElementById('updateFlightId').value = flight.flightId;
+                    document.getElementById('updateDepartureAt').value = formatDateForInput(flight.departureAt);
+                    document.getElementById('updateRouteId').value = flight.routeId;
+                    document.getElementById('updateAircraftId').value = flight.aircraftId;
+                    document.getElementById('updateFlightStatus').value = flight.flightStatus;
                     
                     showForm('update');
                 }
             } catch (error) {
-                console.error('Error fetching aircraft data:', error);
-                alert('Error fetching aircraft data. Please try again.');
+                console.error('Error fetching flight data:', error);
+                alert('Error fetching flight data. Please try again.');
             }
         }
 
-        // Function to handle aircraft delete preparation
-        function deleteAircraft(aircraftId, model, capacity) {
-            document.getElementById('deleteAircraftId').value = aircraftId;
-            document.getElementById('aircraft-to-delete').textContent = `${model} (${capacity} seats)`;
+        // Function to handle flight delete preparation
+        function deleteFlight(flightId, departureAt) {
+            document.getElementById('deleteFlightId').value = flightId;
+            document.getElementById('flight-to-delete').textContent = `Flight ${flightId} (${formatDate(departureAt)})`;
             showForm('delete');
         }
 
@@ -211,7 +292,7 @@
             
             try {
                 const formData = new FormData(this);
-                const response = await fetch('/api/aircraft', {
+                const response = await fetch('/api/flights', {
                     method: 'POST',
                     body: new URLSearchParams(formData),
                     headers: {
@@ -221,16 +302,16 @@
                 
                 const result = await response.json();
                 if (result.id) {
-                    alert('Aircraft added successfully!');
+                    alert('Flight added successfully!');
                     this.reset();
                     showForm('browse');
-                    loadAircraft();
+                    loadFlights();
                 } else {
-                    alert('Error adding aircraft. Please try again.');
+                    alert('Error adding flight. Please try again.');
                 }
             } catch (error) {
-                console.error('Error adding aircraft:', error);
-                alert('Error adding aircraft. Please try again.');
+                console.error('Error adding flight:', error);
+                alert('Error adding flight. Please try again.');
             }
         });
 
@@ -239,7 +320,7 @@
             
             try {
                 const formData = new FormData(this);
-                const response = await fetch('/api/aircraft/update', {
+                const response = await fetch('/api/flights/update', {
                     method: 'POST',
                     body: new URLSearchParams(formData),
                     headers: {
@@ -249,25 +330,29 @@
                 
                 const result = await response.json();
                 if (result.message) {
-                    alert('Aircraft updated successfully!');
+                    alert('Flight updated successfully!');
                     this.reset();
                     showForm('browse');
-                    loadAircraft();
+                    loadFlights();
                 } else {
-                    alert('Error updating aircraft. Please try again.');
+                    alert('Error updating flight. Please try again.');
                 }
             } catch (error) {
-                console.error('Error updating aircraft:', error);
-                alert('Error updating aircraft. Please try again.');
+                console.error('Error updating flight:', error);
+                alert('Error updating flight. Please try again.');
             }
         });
 
         document.getElementById('delete-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            // if (!confirm('Are you sure you want to delete this flight? This action cannot be undone.')) {
+            //     return;
+            // }
+            
             try {
                 const formData = new FormData(this);
-                const response = await fetch('/api/aircraft/delete', {
+                const response = await fetch('/api/flights/delete', {
                     method: 'POST',
                     body: new URLSearchParams(formData),
                     headers: {
@@ -277,21 +362,23 @@
                 
                 const result = await response.json();
                 if (result.message) {
-                    alert('Aircraft deleted successfully!');
+                    alert('Flight deleted successfully!');
                     this.reset();
                     showForm('browse');
-                    loadAircraft();
+                    loadFlights();
                 } else {
-                    alert('Error deleting aircraft. Please try again.');
+                    alert('Error deleting flight. Please try again.');
                 }
             } catch (error) {
-                console.error('Error deleting aircraft:', error);
-                alert('Error deleting aircraft. Please try again.');
+                console.error('Error deleting flight:', error);
+                alert('Error deleting flight. Please try again.');
             }
         });
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
+            loadFlights();
+            loadRoutes();
             loadAircraft();
         });
     </script>
