@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Routes Management</title>
-    <link href="/style.css" rel="stylesheet" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="container">
@@ -14,12 +14,12 @@
         <nav class="nav-container">
             <div class="nav-links">
                 <a href="/index.html">Homepage</a>
-                <a href="/routes.html">Routes</a>
-                <a href="/flights.html">Flights</a>
-                <a href="/aircraft.html">Aircraft</a>
-                <a href="/seats.html">Seats</a>
-                <a href="/passengers_and_bookings.html">Passengers & Bookings</a>
-                <a href="/employees_and_assignments.html">Employees & Assignments</a>
+                <a href="routes.html">Routes</a>
+                <a href="flights.html">Flights</a>
+                <a href="aircraft.html">Aircraft</a>
+                <a href="seats.html">Seats</a>
+                <a href="passengers_and_bookings.html">Passengers & Bookings</a>
+                <a href="employees_and_assignments.html">Employees & Assignments</a>
             </div>
         </nav>
 
@@ -118,7 +118,7 @@
                 </fieldset>
                 <div class="button-container">
                     <button type="button" class="btn-secondary" onclick="showForm('browse')">Cancel</button>
-                    <button type="submit" class="btn-danger">Delete Route</button>
+                    <button type="submit" class="danger">Delete Route</button>
                 </div>
             </form>
         </div>
@@ -144,7 +144,7 @@
         // Function to load routes from the server
         async function loadRoutes() {
             try {
-                const response = await fetch('/api/routes');
+                const response = await fetch('/api/Routes');
                 const routes = await response.json();
                 
                 const tableBody = document.getElementById('routes-table-body');
@@ -155,8 +155,8 @@
                     row.innerHTML = `
                         <td>
                             <div class="button-container">
-                                <button class="btn-primary action-btn" onclick="editRoute(${route.routeId})">Edit</button>
-                                <button class="btn-danger action-btn" onclick="deleteRoute(${route.routeId}, '${route.originAirport}', '${route.destinationAirport}')">Delete</button>
+                                <button class="primary" onclick="editRoute(${route.routeId})">Edit</button>
+                                <button class="danger" onclick="deleteRoute(${route.routeId}, '${route.originAirport}', '${route.destinationAirport}')">Delete</button>
                             </div>
                         </td>
                         <td>${route.routeId}</td>
