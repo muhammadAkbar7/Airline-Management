@@ -180,7 +180,7 @@
                 </fieldset>
                 <div class="button-container">
                     <button type="button" class="btn-secondary" onclick="showForm('employeesTab')">Cancel</button>
-                    <button type="submit" class="btn-danger">Delete Employee</button>
+                    <button type="submit" class="danger">Delete Employee</button>
                 </div>
             </form>
         </div>
@@ -251,7 +251,7 @@
                 </fieldset>
                 <div class="button-container">
                     <button type="button" class="btn-secondary" onclick="showForm('assignmentsTab')">Cancel</button>
-                    <button type="submit" class="btn-danger">Delete Assignment</button>
+                    <button type="submit" class="danger">Delete Assignment</button>
                 </div>
             </form>
         </div>
@@ -367,8 +367,8 @@
                     row.innerHTML = `
                         <td>
                             <div class="button-container">
-                                <button class="btn-primary action-btn" onclick="editEmployee(${employee.employeeId})">Edit</button>
-                                <button class="btn-danger action-btn" onclick="deleteEmployee(${employee.employeeId}, '${employee.employeeName}', '${employee.jobRole}')">Delete</button>
+                                <button class="primary" onclick="editEmployee(${employee.employeeId})">Edit</button>
+                                <button class="danger" onclick="deleteEmployee(${employee.employeeId}, '${employee.employeeName}', '${employee.jobRole}')">Delete</button>
                             </div>
                         </td>
                         <td>${employee.employeeId}</td>
@@ -398,8 +398,8 @@
                     row.innerHTML = `
                         <td>
                             <div class="button-container">
-                                <button class="btn-primary action-btn" onclick="editAssignment(${assignment.assignmentId})">Edit</button>
-                                <button class="btn-danger action-btn" onclick="deleteAssignment(${assignment.assignmentId}, ${assignment.flightId}, '${assignment.employeeName}')">Delete</button>
+                                <button class="primary" onclick="editAssignment(${assignment.assignmentId})">Edit</button>
+                                <button class="danger" onclick="deleteAssignment(${assignment.assignmentId}, ${assignment.flightId}, '${assignment.employeeName}')">Delete</button>
                             </div>
                         </td>
                         <td>${assignment.assignmentId}</td>
