@@ -150,12 +150,14 @@ app.get('/api/flights', (req, res) => {
 app.post('/api/flights', (req, res) => {
     const { departureAt, routeId, aircraftId, flightStatus } = req.body;
     
+    const finalAircraftId = aircraftId === "null" || aircraftId === "" ? null : aircraftId;
+    
     const query = `
         INSERT INTO Flights (departureAt, routeId, aircraftId, flightStatus)
         VALUES (?, ?, ?, ?)
     `;
     
-    db.query(query, [departureAt, routeId, aircraftId, flightStatus], (err, result) => {
+    db.query(query, [departureAt, routeId, finalAircraftId, flightStatus], (err, result) => {
         if (err) {
             console.error('Error adding flight:', err);
             res.status(500).send('Error adding flight');
@@ -169,13 +171,15 @@ app.post('/api/flights', (req, res) => {
 app.post('/api/flights/update', (req, res) => {
     const { flightId, departureAt, routeId, aircraftId, flightStatus } = req.body;
     
+    const finalAircraftId = aircraftId === "null" || aircraftId === "" ? null : aircraftId;
+    
     const query = `
         UPDATE Flights
         SET departureAt = ?, routeId = ?, aircraftId = ?, flightStatus = ?
         WHERE flightId = ?
     `;
     
-    db.query(query, [departureAt, routeId, aircraftId, flightStatus, flightId], (err) => {
+    db.query(query, [departureAt, routeId, finalAircraftId, flightStatus, flightId], (err) => {
         if (err) {
             console.error('Error updating flight:', err);
             res.status(500).send('Error updating flight');
