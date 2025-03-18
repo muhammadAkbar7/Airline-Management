@@ -1,5 +1,10 @@
 
 <!-- passengers_and_bookings.html -->
+ <!-- Citation for the following code: 
+// Date: 02/28/2025
+// Following methods (show, load, update, delete), and listeners are adapted from the CS340 starter code. 
+// Naming, references, and other annotations are handwritten to accomodate the specific database and objects on our site. 
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -655,10 +660,6 @@
         document.getElementById('delete-passenger-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // if (!confirm('Are you sure you want to delete this passenger? This action cannot be undone.')) {
-            //     return;
-            // }
-            
             try {
                 const formData = new FormData(this);
                 const response = await fetch('/api/passengers/delete', {
@@ -743,10 +744,6 @@
 
         document.getElementById('delete-booking-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            // if (!confirm('Are you sure you want to delete this booking? This action cannot be undone.')) {
-            //     return;
-            // }
             
             try {
                 const formData = new FormData(this);
