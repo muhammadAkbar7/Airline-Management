@@ -40,7 +40,7 @@ CREATE TABLE Aircraft (
 CREATE TABLE Flights (
     flightId INT AUTO_INCREMENT PRIMARY KEY,
     departureAt DATETIME NOT NULL,
-    routeId INT,
+    routeId INT NOT NULL,
     aircraftId INT,
     flightStatus ENUM('scheduled', 'delayed', 'cancelled', 'in progress', 'completed') NOT NULL,
     FOREIGN KEY (routeId) REFERENCES Routes(routeId) ON DELETE RESTRICT,

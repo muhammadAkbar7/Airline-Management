@@ -241,12 +241,17 @@
                 // Clear existing options
                 insertDropdown.innerHTML = '<option value="">Select Aircraft</option>';
                 updateDropdown.innerHTML = '<option value="">Select Aircraft</option>';
+
+                //Add default options
+                insertDropdown.innerHTML = `<option value="null">No Aircraft Assigned</option>`;
+                updateDropdown.innerHTML = `<option value="null">No Aircraft Assigned</option>`;
                 
                 aircraft.forEach(plane => {
                     const optionText = `${plane.model} (Capacity: ${plane.capacity})`;
                     insertDropdown.innerHTML += `<option value="${plane.aircraftId}">${optionText}</option>`;
                     updateDropdown.innerHTML += `<option value="${plane.aircraftId}">${optionText}</option>`;
                 });
+
             } catch (error) {
                 console.error('Error loading aircraft:', error);
                 alert('Error loading aircraft data. Please try again.');
@@ -269,6 +274,7 @@
                     
                     showForm('update');
                 }
+
             } catch (error) {
                 console.error('Error fetching flight data:', error);
                 alert('Error fetching flight data. Please try again.');
@@ -313,7 +319,7 @@
 
         document.getElementById('update-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             try {
                 const formData = new FormData(this);
                 const response = await fetch('/api/flights/update', {
