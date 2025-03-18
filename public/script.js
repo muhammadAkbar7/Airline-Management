@@ -1,4 +1,11 @@
 /* script.js */
+// Citation for the following code: 
+// Date: 02/27/2025
+// Following script.js form functions, listeners, and validations/confirmations are based on the nodejs starter app. 
+// The code is updated and functions created/modified to allow for specific container styling for the website UI. 
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+
+
 // Tab functionality
 function openTab(evt, tabName) {
     // Hide all tab content
