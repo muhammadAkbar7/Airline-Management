@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aircraft Management</title>
-    <link href="/style.css" rel="stylesheet" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="container">
@@ -14,12 +14,12 @@
         <nav class="nav-container">
             <div class="nav-links">
                 <a href="/index.html">Homepage</a>
-                <a href="/routes.html">Routes</a>
-                <a href="/flights.html">Flights</a>
-                <a href="/aircraft.html">Aircraft</a>
-                <a href="/seats.html">Seats</a>
-                <a href="/passengers_and_bookings.html">Passengers & Bookings</a>
-                <a href="/employees_and_assignments.html">Employees & Assignments</a>
+                <a href="routes.html">Routes</a>
+                <a href="flights.html">Flights</a>
+                <a href="aircraft.html">Aircraft</a>
+                <a href="seats.html">Seats</a>
+                <a href="passengers_and_bookings.html">Passengers & Bookings</a>
+                <a href="employees_and_assignments.html">Employees & Assignments</a>
             </div>
         </nav>
 
@@ -117,7 +117,7 @@
                 </fieldset>
                 <div class="button-container">
                     <button type="button" class="btn-secondary" onclick="showForm('browse')">Cancel</button>
-                    <button type="submit" class="btn-danger">Delete Aircraft</button>
+                    <button type="submit" class="danger">Delete Aircraft</button>
                 </div>
             </form>
         </div>
@@ -154,8 +154,8 @@
                     row.innerHTML = `
                         <td>
                             <div class="button-container">
-                                <button class="btn-primary action-btn" onclick="editAircraft(${plane.aircraftId})">Edit</button>
-                                <button class="btn-danger action-btn" onclick="deleteAircraft(${plane.aircraftId}, '${plane.model}', ${plane.capacity})">Delete</button>
+                                <button class="primary" onclick="editAircraft(${plane.aircraftId})">Edit</button>
+                                <button class="danger" onclick="deleteAircraft(${plane.aircraftId}, '${plane.model}', ${plane.capacity})">Delete</button>
                             </div>
                         </td>
                         <td>${plane.aircraftId}</td>
