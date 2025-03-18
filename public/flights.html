@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flights Management</title>
-    <link href="/style.css" rel="stylesheet" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="container">
@@ -14,12 +14,12 @@
         <nav class="nav-container">
             <div class="nav-links">
                 <a href="/index.html">Homepage</a>
-                <a href="/routes.html">Routes</a>
-                <a href="/flights.html">Flights</a>
-                <a href="/aircraft.html">Aircraft</a>
-                <a href="/seats.html">Seats</a>
-                <a href="/passengers_and_bookings.html">Passengers & Bookings</a>
-                <a href="/employees_and_assignments.html">Employees & Assignments</a>
+                <a href="routes.html">Routes</a>
+                <a href="flights.html">Flights</a>
+                <a href="aircraft.html">Aircraft</a>
+                <a href="seats.html">Seats</a>
+                <a href="passengers_and_bookings.html">Passengers & Bookings</a>
+                <a href="employees_and_assignments.html">Employees & Assignments</a>
             </div>
         </nav>
 
@@ -138,7 +138,7 @@
                 </fieldset>
                 <div class="button-container">
                     <button type="button" class="btn-secondary" onclick="showForm('browse')">Cancel</button>
-                    <button type="submit" class="btn-danger">Delete Flight</button>
+                    <button type="submit" class="danger">Delete Flight</button>
                 </div>
             </form>
         </div>
@@ -187,8 +187,8 @@
                     row.innerHTML = `
                         <td>
                             <div class="button-container">
-                                <button class="btn-primary action-btn" onclick="editFlight(${flight.flightId})">Edit</button>
-                                <button class="btn-danger action-btn" onclick="deleteFlight(${flight.flightId}, '${flight.departureAt}')">Delete</button>
+                                <button class="primary" onclick="editFlight(${flight.flightId})">Edit</button>
+                                <button class="danger" onclick="deleteFlight(${flight.flightId}, '${flight.departureAt}')">Delete</button>
                             </div>
                         </td>
                         <td>${flight.flightId}</td>
@@ -241,17 +241,12 @@
                 // Clear existing options
                 insertDropdown.innerHTML = '<option value="">Select Aircraft</option>';
                 updateDropdown.innerHTML = '<option value="">Select Aircraft</option>';
-
-                //Add default options
-                insertDropdown.innerHTML = `<option value="null">No Aircraft Assigned</option>`;
-                updateDropdown.innerHTML = `<option value="null">No Aircraft Assigned</option>`;
                 
                 aircraft.forEach(plane => {
                     const optionText = `${plane.model} (Capacity: ${plane.capacity})`;
                     insertDropdown.innerHTML += `<option value="${plane.aircraftId}">${optionText}</option>`;
                     updateDropdown.innerHTML += `<option value="${plane.aircraftId}">${optionText}</option>`;
                 });
-
             } catch (error) {
                 console.error('Error loading aircraft:', error);
                 alert('Error loading aircraft data. Please try again.');
@@ -274,7 +269,6 @@
                     
                     showForm('update');
                 }
-
             } catch (error) {
                 console.error('Error fetching flight data:', error);
                 alert('Error fetching flight data. Please try again.');
@@ -319,7 +313,7 @@
 
         document.getElementById('update-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-
+            
             try {
                 const formData = new FormData(this);
                 const response = await fetch('/api/flights/update', {
