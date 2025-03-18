@@ -1,8 +1,9 @@
 /* style.css */
 :root {
-  --primary: #2563eb;
+  --primary: #28a745;
   --primary-dark: #1d4ed8;
   --secondary: #64748b;
+  --third: #007bff;
   --danger: #ef4444;
   --success: #22c55e;
   --warning: #f59e0b;
@@ -187,6 +188,7 @@ tr:hover {
 /* Tab styles */
 .tab-container {
   margin: 2rem 0;
+
 }
 
 .tab-navigation {
@@ -212,7 +214,6 @@ tr:hover {
   font-weight: 600; /* Updated: increased font weight */
   position: relative;
   transition: all 0.2s ease;
-  border-bottom: 2px solid transparent;
   margin-bottom: -2px;
 }
 
@@ -319,6 +320,16 @@ input[type="button"] {
   transition: all 0.2s;
 }
 
+.danger {
+  background-color: var(--danger);
+  color: white;
+}
+
+.primary {
+  background-color: var(--third);
+  color: white;
+}
+
 .btn-primary {
   background-color: var(--primary);
   color: white;
@@ -333,11 +344,6 @@ input[type="button"] {
   color: white;
 }
 
-.btn-danger {
-  background-color: var(--danger);
-  color: white;
-}
-
 /* Action buttons */
 .action-btn {
   padding: 0.5rem 1rem;
@@ -345,6 +351,7 @@ input[type="button"] {
   text-decoration: none;
   font-size: 0.875rem;
   transition: all 0.2s;
+  background-color: var(--third);
 }
 
 /* Status badges */
@@ -405,26 +412,26 @@ input[type="button"] {
   body {
       padding: 1rem;
   }
-  
+
   .nav-links {
       flex-direction: column;
   }
-  
+
   .button-container {
       flex-direction: column;
   }
-  
+
   button, 
   input[type="submit"], 
   input[type="button"] {
       width: 100%;
   }
-  
+
   .page-header {
       flex-direction: column;
       gap: 1rem;
   }
-  
+
   .filter-section {
       flex-direction: column;
   }
